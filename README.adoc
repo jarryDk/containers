@@ -1,0 +1,88 @@
+= Containers
+
+== buildah-fedora-jdk15.sh (jarry-jdk)
+
+Based on fedora:33 it will add jdk-15.0.2 to the images.
+
+*Build the images*
+[source,bash]
+----
+./buildah-fedora-jdk15.sh
+----
+
+*Test the images*
+[source,bash]
+----
+podman run -it --rm=true \
+    jarry-jdk:15 \
+    java -version
+----
+
+== buildah-fedora-jdk17.sh (jarry-jdk)
+
+Based on fedora:33 it will add home build version of jdk-17 to the images.
+
+*Build the images*
+[source,bash]
+----
+./buildah-fedora-jdk17.sh
+----
+
+*Test the images*
+[source,bash]
+----
+podman run -it --rm=true \
+    jarry-jdk:17 \
+    java -version
+----
+
+== buildah-fedora-jdk15-tools-to-build-jdk.sh (jarry-build-jdk)
+
+Based on jarry-jdk:15 it will add tools to build jdk
+
+*Build the images*
+[source,bash]
+----
+./buildah-fedora-jdk15-tools-to-build-jdk.sh
+----
+
+*Using the images*
+[source,bash]
+----
+mkdir -p $PWD/build/openjdk-17
+podman run -it --rm=true \
+    --privileged \
+    -v $PWD/build/openjdk-17:/opt/java/openjdk-17 \
+    jarry-tools-to-build-jdk:1
+----
+
+OpenJdk 17 will be located in the folder `/opt/java/openjdk-17`
+
+== buildah-fedora-jdk15-wildfly-22.0.1.Final.sh (jarry-wildfly)
+
+Based on jarry-jdk:15 it will add Wildfly 22.0.1.Final
+
+*Build the images*
+[source,bash]
+----
+./buildah-fedora-jdk15-wildfly-22.0.1.Final.sh
+----
+
+*Test the images*
+[source,bash]
+----
+podman run -it --rm=true \
+    -p 8080:8080 \
+    jarry-wildfly:22.0.1.Final
+----
+
+== Build tools
+
+=== getJdk15.sh
+
+Download jdk 15 to the folder `build` and extract the file in the `build` folder.
+
+== Tools
+
+* https://github.com/containers/buildah[buildah]
+* https://github.com/containers/podman[podman]

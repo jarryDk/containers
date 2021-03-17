@@ -1,7 +1,7 @@
 #!/bin/bash
 
-## Get Widlfly 22.0.1.Final 
-WILDFLY_VERSION=22.0.1.Final
+## Get Widlfly 23.0.0.Final 
+WILDFLY_VERSION=23.0.0.Final
 source "getWildfly.sh"
 
 #########################################################################
@@ -9,7 +9,7 @@ source "getWildfly.sh"
 # Work on image
 #
 
-container1=$(buildah from "${1:-jarry-fedora-openjdk:15.0.2}")
+container1=$(buildah from "${1:-jarry-centos-openjdk:15.0.2}")
 
 ## Get all updates 
 buildah run "$container1" -- dnf update -y
@@ -23,7 +23,5 @@ buildah config --port 8080 "$container1"
 buildah config --port 8443 "$container1"
 buildah config --port 9990 "$container1"
 
-# ENTRYPOINT ${WILDFLY_HOME}
-
 echo "Commit images"
-buildah commit "$container1" ${2:-jarry-fedora-wildfly:22.0.1.Final}
+buildah commit "$container1" ${2:-jarry-centos-wildfly:23.0.0.Final}

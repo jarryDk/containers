@@ -14,7 +14,7 @@ fi
 # Work on images
 #
 
-container1=$(buildah from "${1:-fedora:33}")
+container1=$(buildah from "${1:-centos:latest}")
 
 ## Get all updates
 echo "Get all updates"
@@ -32,4 +32,4 @@ buildah copy "$container1" build/openjdk/jdk-$OPEN_JDK_VERSION /opt/java/jdk-$OP
 buildah config --env JAVA_HOME=/opt/java/jdk-$OPEN_JDK_VERSION "$container1"
 buildah config --env PATH=/opt/java/jdk-$OPEN_JDK_VERSION/bin:$PATH "$container1"
 
-buildah commit "$container1" ${2:-jarry-fedora-openjdk:15.0.2}
+buildah commit "$container1" ${2:-jarry-centos-openjdk:15.0.2}

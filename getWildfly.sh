@@ -2,7 +2,19 @@
 
 ## Get Wildfly
 
-WILDFLY_VERSION=22.0.1.Final
+case $OPEN_JDK_VERSION in
+    23.0.0.Final)
+        WILDFLY_VERSION=23.0.0.Final
+    ;;
+
+    22.0.1.Final)        
+        WILDFLY_VERSION=22.0.1.Final
+    ;;
+
+    *)
+        WILDFLY_VERSION=22.0.1.Final
+    ;;
+esac
 
 WILDFLY_TAR_GZ=wildfly-$WILDFLY_VERSION.tar.gz
 WILDFLY_SHA1=wildfly-$WILDFLY_VERSION.tar.gz.sha1

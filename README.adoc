@@ -1,6 +1,13 @@
 = Containers
 
-== buildah-fedora-jdk15.sh (jarry-jdk)
+In this repo https://github.com/containers/buildah[buildah] and https://github.com/containers/podman[podman] is
+used to create 
+
+- Images
+- Pods
+- Containers
+
+== buildah-fedora-jdk15.sh (jarry-fedora-openjdk)
 
 Based on fedora:33 it will add jdk-15.0.2 to the images.
 
@@ -14,11 +21,29 @@ Based on fedora:33 it will add jdk-15.0.2 to the images.
 [source,bash]
 ----
 podman run -it --rm=true \
-    jarry-jdk:15 \
+    jarry-fedora-openjdk:15.0.2 \
     java -version
 ----
 
-== buildah-fedora-jdk17.sh (jarry-jdk)
+== buildah-fedora-jdk16.sh (jarry-fedora-openjdk)
+
+Based on fedora:33 it will add jdk-16 to the images.
+
+*Build the images*
+[source,bash]
+----
+./buildah-fedora-jdk16.sh
+----
+
+*Test the images*
+[source,bash]
+----
+podman run -it --rm=true \
+    jarry-fedora-openjdk:16 \
+    java -version
+----
+
+== buildah-fedora-jdk17.sh (jarry-fedora-openjdk)
 
 Based on fedora:33 it will add home build version of jdk-17 to the images.
 
@@ -32,13 +57,13 @@ Based on fedora:33 it will add home build version of jdk-17 to the images.
 [source,bash]
 ----
 podman run -it --rm=true \
-    jarry-jdk:17 \
+    jarry-fedora-openjdk:17 \
     java -version
 ----
 
-== buildah-fedora-jdk15-tools-to-build-jdk.sh (jarry-build-jdk)
+== buildah-fedora-jdk15-tools-to-build-jdk.sh (jarry-fedora-tools-to-build-jdk)
 
-Based on jarry-jdk:15 it will add tools to build jdk
+Based on jarry-fedora-openjdk:15.0.2 it will add tools to build jdk
 
 *Build the images*
 [source,bash]
@@ -49,18 +74,18 @@ Based on jarry-jdk:15 it will add tools to build jdk
 *Using the images*
 [source,bash]
 ----
-mkdir -p $PWD/build/openjdk-17
+mkdir -p $PWD/build/openjdk
 podman run -it --rm=true \
     --privileged \
-    -v $PWD/build/openjdk-17:/opt/java/openjdk-17 \
-    jarry-tools-to-build-jdk:1
+    -v $PWD/build/openjdk:/opt/java/openjdk-17 \
+    jarry-fedora-tools-to-build-jdk:1
 ----
 
 OpenJdk 17 will be located in the folder `/opt/java/openjdk-17`
 
-== buildah-fedora-jdk15-wildfly-22.0.1.Final.sh (jarry-wildfly)
+== buildah-fedora-jdk15-wildfly-22.0.1.Final.sh (jarry-fedora-wildfly)
 
-Based on jarry-jdk:15 it will add Wildfly 22.0.1.Final
+Based on jarry-fedora-openjdk:15.0.2 it will add Wildfly 22.0.1.Final
 
 *Build the images*
 [source,bash]
@@ -73,16 +98,145 @@ Based on jarry-jdk:15 it will add Wildfly 22.0.1.Final
 ----
 podman run -it --rm=true \
     -p 8080:8080 \
-    jarry-wildfly:22.0.1.Final
+    jarry-fedora-wildfly:22.0.1.Final
+----
+
+== buildah-fedora-jdk15.sh (jarry-centos-openjdk)
+
+Based on `centos:latest` it will add jdk-15.0.2 to the images.
+
+*Build the images*
+[source,bash]
+----
+./buildah-centos-jdk15.sh
+----
+
+*Test the images*
+[source,bash]
+----
+podman run -it --rm=true \
+    jarry-centos-openjdk:15.0.2 \
+    java -version
+----
+
+== buildah-fedora-jdk16.sh (jarry-centos-openjdk)
+
+Based on `centos:latest` it will add jdk-16 to the images.
+
+*Build the images*
+[source,bash]
+----
+./buildah-centos-jdk16.sh
+----
+
+*Test the images*
+[source,bash]
+----
+podman run -it --rm=true \
+    jarry-centos-openjdk:16 \
+    java -version
+----
+
+== buildah-centos-jdk17.sh (jarry-centos-openjdk)
+
+Based on `centos:latest` it will add home build version of jdk-17 to the images.
+
+*Build the images*
+[source,bash]
+----
+./buildah-centos-jdk17.sh
+----
+
+*Test the images*
+[source,bash]
+----
+podman run -it --rm=true \
+    jarry-centos-openjdk:17 \
+    java -version
+----
+
+== buildah-centos-jdk15-wildfly-23.0.0.Final.sh (jarry-centos-wildfly)
+
+Based on jarry-centos-openjdk:15.0.2 it will add Wildfly 23.0.0.Final
+
+*Build the images*
+[source,bash]
+----
+./buildah-centos-jdk15-wildfly-23.0.0.Final.sh
+----
+
+*Test the images*
+[source,bash]
+----
+podman run -it --rm=true \
+    -p 8080:8080 \
+    jarry-centos-wildfly:23.0.0.Final
+----
+
+== Local registry
+
+We might like to run a local registry.
+
+[source,bash]
+----
+podman run -it -p 5000:5000 --name registry registry:2
+----
+
+My local ip is `192.168.1.36`.
+
+[source,bash]
+----
+podman push localhost/jarry-fedora-openjdk:15.0.2 192.168.1.36:5000/jarry/jarry-fedora-openjdk:15.0.2
+----
+
+If we like to get the images `jarry-fedora-openjdk:15.0.2` in an insecure way from `192.168.1.36` - 
+we need to add some lines to `/etc/containers/registries.conf`
+
+[source,bash]
+----
+echo '' >> /etc/containers/registries.conf
+echo '# Manual update' >> /etc/containers/registries.conf
+echo '[[registry]]' >> /etc/containers/registries.conf
+echo 'prefix = "192.168.1.36:5000"' >> /etc/containers/registries.conf
+echo 'location = "192.168.1.36:5000/jarry"' >> /etc/containers/registries.conf
+echo 'insecure = true' >> /etc/containers/registries.conf
 ----
 
 == Build tools
 
-=== getJdk15.sh
+=== getOpenJdk.sh
 
-Download jdk 15 to the folder `build` and extract the file in the `build` folder.
+Download OpenJdk to the folder `build` and extract the file in the `build` folder.
+
+*USE*
+
+[source,bash]
+----
+## Get jdk 15.0.2
+OPEN_JDK_VERSION=15.0.2
+source "getOpenJdk.sh"
+----
+
+=== getWildfly.sh
+
+Download Wildfly to the folder `build` and extract the file in the `build` folder.
+
+*USE*
+
+[source,bash]
+----
+## Get Widlfly 22.0.1.Final 
+WILDFLY_VERSION=22.0.1.Final
+source "getWildfly.sh"
+----
 
 == Tools
 
 * https://github.com/containers/buildah[buildah]
 * https://github.com/containers/podman[podman]
+
+== Links
+
+* https://www.redhat.com/sysadmin/compose-podman-pods[Moving from docker-compose to Podman pods]
+* https://developers.redhat.com/blog/2019/01/15/podman-managing-containers-pods/[Podman: Managing pods and containers in a local container runtime]
+* https://fedoramagazine.org/manage-containers-with-podman-compose/[Manage containers with Podman Compose]

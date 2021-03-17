@@ -5,7 +5,7 @@
 # Work on image
 #
 
-container1=$(buildah from "${1:-jarry-jdk:15}")
+container1=$(buildah from "${1:-jarry-fedora-openjdk:15.0.2}")
 
 ## Get all updates 
 buildah run "$container1" -- dnf update -y
@@ -32,11 +32,10 @@ buildah run "$container1" -- dnf install \
 
 cat > build/config-build.sh <<"EOF"
 #!/bin/bash
-
 cd /opt/java
 git clone https://github.com/openjdk/jdk.git
 cd jdk
-bash configure --with-version-date=$(date +"%y-%m-%d")
+bash configure --with-version-date=$(date +"%Y-%m-%d")
 make images
 if [ ! -d /opt/java/openjdk-17 ]; then
 	mkdir -p /opt/java/openjdk-17
@@ -52,4 +51,4 @@ buildah copy "$container1" build/config-build.sh /opt/java/config-build.sh
 buildah config --cmd "/opt/java/config-build.sh" "$container1"
 
 echo "Commit images"
-buildah commit "$container1" ${2:-jarry-tools-to-build-jdk:1}
+buildah commit "$container1" ${2:-jarry-fedora-tools-to-build-jdk:1}

@@ -14,7 +14,7 @@ fi
 # Work on images
 #
 
-container1=$(buildah from "${1:-fedora:33}")
+container1=$(buildah from "${1:-fedora:34}")
 
 ## Get all updates
 echo "Get all updates"

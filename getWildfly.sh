@@ -3,6 +3,11 @@
 ## Get Wildfly
 
 case $OPEN_JDK_VERSION in
+
+    23.0.2.Final)
+        WILDFLY_VERSION=23.0.2.Final
+    ;;
+
     23.0.0.Final)
         WILDFLY_VERSION=23.0.0.Final
     ;;
@@ -12,7 +17,7 @@ case $OPEN_JDK_VERSION in
     ;;
 
     *)
-        WILDFLY_VERSION=22.0.1.Final
+        WILDFLY_VERSION=23.0.2.Final
     ;;
 esac
 

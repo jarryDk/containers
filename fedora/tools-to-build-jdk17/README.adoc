@@ -1,0 +1,23 @@
+= Tools to build Jdk 17
+
+== buildah-fedora-jdk16-tools-to-build-jdk17.sh (jarry-fedora-tools-to-build-jdk)
+
+Based on jarry-fedora-openjdk:16 it will add tools to build jdk
+
+*Build the images*
+[source,bash]
+----
+./buildah-fedora-jdk16-tools-to-build-jdk17.sh
+----
+
+*Using the images*
+[source,bash]
+----
+mkdir -p $PWD/build/openjdk
+podman run -it --rm=true \
+    --privileged \
+    -v $PWD/build/openjdk:/opt/java/openjdk-17 \
+    jarry-fedora-tools-to-build-jdk:1b
+----
+
+OpenJdk 17 will be located in the folder `/opt/java/openjdk-17`

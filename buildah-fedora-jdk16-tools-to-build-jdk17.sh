@@ -35,7 +35,7 @@ cat > build/config-build.sh <<"EOF"
 cd /opt/java
 git clone https://github.com/openjdk/jdk17.git
 cd jdk17
-bash configure --with-version-date=$(date +"%Y-%m-%d")
+bash configure --with-version-date=$(date +"%Y-%m-%d")  --with-vendor-name=JarryDk
 make images
 if [ ! -d /opt/java/openjdk-17 ]; then
 	mkdir -p /opt/java/openjdk-17

@@ -1,0 +1,63 @@
+= Kafka
+
+Base images ´docker.io/jarrydk/fedora-kafka:3.1´ is `fedora:35`.
+
+== Build images
+
+[sourch,bash]
+----
+./build_images.sh
+----
+
+== Push to docker hub
+
+[sourch,bash]
+----
+./push_to_dockerhub.sh
+----
+
+== Start ZooKeeper (standalone)
+
+[sourch,bash]
+----
+$ cd ../../build/kafka/kafka_2.13-3.1.0
+$ bin/zookeeper-server-start.sh config/zookeeper.properties
+----
+
+== Start Kafka
+
+[sourch,bash]
+----
+podman run -it --rm=true \
+    --name=kafka \
+    -p 9092:9092 \
+    -e KAFKA_ZOOKEEPER_CONNECT=192.168.0.118:2181 docker.io/jarrydk/fedora-kafka:3.1
+----
+
+== Start ZooKeeper and Kafka in same Pod
+
+[sourch,bash]
+----
+podman pod create \
+    --name kafka-cluster \
+    -p 9092:9092
+----
+
+[sourch,bash]
+----
+podman run -it --rm=true \
+    --pod kafka-cluster \
+    --name=kafka-zookeeper docker.io/jarrydk/fedora-kafka-zookeeper:3.1
+----
+
+[sourch,bash]
+----
+podman run -it --rm=true \
+    --pod kafka-cluster \
+    --name=kafka \
+    -e KAFKA_ZOOKEEPER_CONNECT=localhost:2181 docker.io/jarrydk/fedora-kafka:3.1
+----
+
+== Links
+
+https://kafka.apache.org/

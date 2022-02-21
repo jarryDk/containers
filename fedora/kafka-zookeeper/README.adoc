@@ -1,0 +1,30 @@
+= Kafka
+
+Base images ´docker.io/jarrydk/fedora-kafka-zookeeper:3.1´ is `fedora:35`.
+
+== Build images
+
+[sourch,bash]
+----
+./build_images.sh
+----
+
+== Push to docker hub
+
+[sourch,bash]
+----
+./push_to_dockerhub.sh
+----
+
+== Start Kafka ZooKeeper
+
+[sourch,bash]
+----
+podman run -it --rm=true \
+    -p 2181:2181 \
+    --name=kafka-zookeeper docker.io/jarrydk/fedora-kafka-zookeeper:3.1
+----
+
+== Links
+
+https://kafka.apache.org/

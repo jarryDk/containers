@@ -46,16 +46,16 @@ echo "Install Kafka - kafka_${SCALA_VERSION}-${KAFKA_VERSION}"
 												
 buildah copy "$container1" build/kafka/kafka_${SCALA_VERSION}-${KAFKA_VERSION} /opt/kafka
 
-buildah copy "$container1" fedora/kafka/start-kafka-jarrydk.sh /opt/kafka/start-kafka-jarrydk.sh
+buildah copy "$container1" fedora/kafka-zookeeper/start-kafka-zookeeper-jarrydk.sh /opt/kafka/start-kafka-zookeeper-jarrydk.sh
 
 buildah config --env KAFKA_HOME=/opt/kafka "$container1"
 buildah config --env PATH=${KAFKA_HOME}/bin:$PATH "$container1"
 
 ## Run our server and expose the port
-buildah config --cmd "/opt/kafka/start-kafka-jarrydk.sh" "$container1"
-buildah config --port 9092 "$container1"
+buildah config --cmd "/opt/kafka/start-kafka-zookeeper-jarrydk.sh" "$container1"
+buildah config --port 2181 "$container1"
 
-buildah config --label org.label-schema.name="kafka" "$container1"
+buildah config --label org.label-schema.name="kafka-zookeeper" "$container1"
 buildah config --label org.label-schema.description="Apache Kafka" "$container1"
 buildah config --label org.label-schema.build-date="${build_date}" "$container1"
 buildah config --label org.label-schema.vcs-url="https://github.com/jarrydk/containers" "$container1"
@@ -64,4 +64,4 @@ buildah config --label org.label-schema.schema-version="1.0" "$container1"
 buildah config --label maintainer="jarrydk" "$container1" 
 buildah config --label license="Apache License Version 2.0" "$container1" 
 
-buildah commit "$container1" ${2:-docker.io/jarrydk/fedora-kafka:3.1}
+buildah commit "$container1" ${2:-docker.io/jarrydk/fedora-kafka-zookeeper:3.1}

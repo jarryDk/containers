@@ -7,32 +7,28 @@ used to create
 - Pods
 - Containers
 
-== buildah-fedora-jdk15.sh (jarry-fedora-openjdk)
+== Fedora
 
-Based on fedora:33 it will add jdk-15.0.2 to the images.
+=== Fedora Updated (jarry-fedora-updates:35)
 
-*Build the images*
-[source,bash]
-----
-./buildah-fedora-jdk15.sh
-----
-
-*Test the images*
-[source,bash]
-----
-podman run -it --rm=true \
-    jarry-fedora-openjdk:15.0.2 \
-    java -version
-----
-
-== buildah-fedora-jdk16.sh (jarry-fedora-openjdk)
-
-Based on fedora:33 it will add jdk-16 to the images.
+Based on `fedora:35` create an updated image.
 
 *Build the images*
 [source,bash]
 ----
-./buildah-fedora-jdk16.sh
+cd fedora/fedora-updated
+./buils_images.sh
+----
+
+=== jdk16 on Fedora (jarry-fedora-openjdk:16)
+
+Based on `fedora:35` or `jarry-fedora-updates:35` it will add `jdk-16` to the image.
+
+*Build the images*
+[source,bash]
+----
+cd fedora/jdk16
+./buils_images.sh
 ----
 
 *Test the images*
@@ -43,14 +39,15 @@ podman run -it --rm=true \
     java -version
 ----
 
-== buildah-fedora-jdk17.sh (jarry-fedora-openjdk)
+=== jdk17 on Fedora (jarry-fedora-openjdk:17)
 
-Based on fedora:33 it will add home build version of jdk-17 to the images.
+Based on `fedora:35` or `jarry-fedora-updates:35` it will add `jdk-17` to the image.
 
 *Build the images*
 [source,bash]
 ----
-./buildah-fedora-jdk17.sh
+cd fedora/jdk17
+./buils_images.sh
 ----
 
 *Test the images*
@@ -60,6 +57,23 @@ podman run -it --rm=true \
     jarry-fedora-openjdk:17 \
     java -version
 ----
+
+=== Kafka on Fedora
+
+Based on `fedora:35`, `jarry-fedora-updates:35` or `jarry-fedora-openjdk:17` it will add `Kafka` to the image.
+
+link:fedora/kafka/README.adoc[fedora/kafka/README.adoc]
+
+https://hub.docker.com/r/jarrydk/fedora-kafka[hub.docker.com/r/jarrydk/fedora-kafka]
+
+=== Kafka ZooKeeper on Fedora
+
+Based on `fedora:35`, `jarry-fedora-updates:35` or `jarry-fedora-openjdk:17` it will add `Kafka ZooKeeper` to the image.
+
+
+link:fedora/kafka-zookeeper/README.adoc[fedora/kafka-zookeeper/README.adoc]
+
+https://hub.docker.com/r/jarrydk/fedora-kafka-zookeeper[hub.docker.com/r/jarrydk/fedora-kafka-zookeeper]
 
 == buildah-fedora-jdk15-tools-to-build-jdk.sh (jarry-fedora-tools-to-build-jdk)
 
@@ -101,25 +115,9 @@ podman run -it --rm=true \
     jarry-fedora-wildfly:22.0.1.Final
 ----
 
-== buildah-fedora-jdk15.sh (jarry-centos-openjdk)
+== CentOS
 
-Based on `centos:latest` it will add jdk-15.0.2 to the images.
-
-*Build the images*
-[source,bash]
-----
-./buildah-centos-jdk15.sh
-----
-
-*Test the images*
-[source,bash]
-----
-podman run -it --rm=true \
-    jarry-centos-openjdk:15.0.2 \
-    java -version
-----
-
-== buildah-fedora-jdk16.sh (jarry-centos-openjdk)
+== buildah-centos-jdk16.sh (jarry-centos-openjdk:16)
 
 Based on `centos:latest` it will add jdk-16 to the images.
 

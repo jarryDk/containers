@@ -27,7 +27,9 @@ fi
 # Work on images
 #
 
-container1=$(buildah from "${1:-fedora:35}")
+# container1=$(buildah from "${1:-fedora:35}")
+# container1=$(buildah from "${1:-jarry-fedora-updates:35}")
+container1=$(buildah from "${1:-jarry-fedora-openjdk:17}")
 
 ## Get all updates
 echo "Get all updates"
@@ -65,3 +67,4 @@ buildah config --label maintainer="jarrydk" "$container1"
 buildah config --label license="Apache License Version 2.0" "$container1" 
 
 buildah commit "$container1" ${2:-docker.io/jarrydk/fedora-kafka:3.1}
+# buildah commit "$container1" ${2:-jarry-fedora-kafka:3.1}

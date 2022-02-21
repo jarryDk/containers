@@ -3,6 +3,11 @@
 ## Get OpenJdk
 
 case $OPEN_JDK_VERSION in
+    17.0.2)
+        OPEN_JDK_VERSION=17.0.2
+        OPEN_JDK_VERSION_ID_PATH=dfd4a8d0985749f896bed50d7138ee7f/8
+    ;;
+
     16)
         OPEN_JDK_VERSION=16
         OPEN_JDK_VERSION_ID_PATH=7863447f0ab643c585b9bdebf67c69db/36

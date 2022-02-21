@@ -27,7 +27,9 @@ fi
 # Work on images
 #
 
-container1=$(buildah from "${1:-fedora:35}")
+# container1=$(buildah from "${1:-fedora:35}")
+# container1=$(buildah from "${1:-jarry-fedora-updates:35}")
+container1=$(buildah from "${1:-jarry-fedora-openjdk:17}")
 
 ## Get all updates
 echo "Get all updates"

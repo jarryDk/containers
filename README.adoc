@@ -1,7 +1,7 @@
 = Containers
 
 In this repo https://github.com/containers/buildah[buildah] and https://github.com/containers/podman[podman] is
-used to create 
+used to create
 
 - Images
 - Pods
@@ -9,9 +9,9 @@ used to create
 
 == Fedora
 
-=== Fedora Updated (jarry-fedora-updates:35)
+=== Fedora Updated (jarrydk/fedora-updates:36)
 
-Based on `fedora:35` create an updated image.
+Based on `fedora:36` create an updated image.
 
 *Build the images*
 [source,bash]
@@ -20,14 +20,14 @@ cd fedora/fedora-updated
 ./buils_images.sh
 ----
 
-=== jdk16 on Fedora (jarry-fedora-openjdk:16)
+=== jdk11 on Fedora (jarrydk/fedora-adoptium-openjdk:11)
 
-Based on `fedora:35` or `jarry-fedora-updates:35` it will add `jdk-16` to the image.
+Based on `fedora:36` or `jarrydk/fedora-updates:36` it will add `jdk-11` to the image.
 
 *Build the images*
 [source,bash]
 ----
-cd fedora/jdk16
+cd fedora/jdk11
 ./buils_images.sh
 ----
 
@@ -35,13 +35,13 @@ cd fedora/jdk16
 [source,bash]
 ----
 podman run -it --rm=true \
-    jarry-fedora-openjdk:16 \
+    jarrydk/fedora-adoptium-openjdk:11 \
     java -version
 ----
 
-=== jdk17 on Fedora (jarry-fedora-openjdk:17)
+=== jdk17 on Fedora (jarrydk/fedora-adoptium-openjdk:17)
 
-Based on `fedora:35` or `jarry-fedora-updates:35` it will add `jdk-17` to the image.
+Based on `fedora:36` or `jarrydk/fedora-updates:36` it will add `jdk-17` to the image.
 
 *Build the images*
 [source,bash]
@@ -54,13 +54,51 @@ cd fedora/jdk17
 [source,bash]
 ----
 podman run -it --rm=true \
-    jarry-fedora-openjdk:17 \
+    jarrydk/fedora-adoptium-openjdk:17 \
     java -version
+----
+
+=== jdk19 on Fedora (jarrydk/fedora-adoptium-openjdk:19)
+
+Based on `fedora:36` or `jarrydk/fedora-updates:36` it will add `jdk-19` to the image.
+
+*Build the images*
+[source,bash]
+----
+cd fedora/jdk19
+./buils_images.sh
+----
+
+*Test the images*
+[source,bash]
+----
+podman run -it --rm=true \
+    jarrydk/fedora-adoptium-openjdk:19 \
+    java -version
+----
+
+=== wildfly-26.1.2.Final on Fedora (jarrydk/fedora-wildfly:26.1.2.Final)
+
+Based on jarrydk/fedora-adoptium-openjdk:17 it will add Wildfly 26.1.2.Final
+
+*Build the images*
+[source,bash]
+----
+cd fedora/wildfly-26.1.2.Final
+./buils_images.sh
+----
+
+*Test the images*
+[source,bash]
+----
+podman run -it --rm=true \
+    -p 8080:8080 \
+    jarrydk/fedora-wildfly:26.1.2.Final
 ----
 
 === Kafka on Fedora
 
-Based on `fedora:35`, `jarry-fedora-updates:35` or `jarry-fedora-openjdk:17` it will add `Kafka` to the image.
+Based on `fedora:36`, `jarrydk/fedora-updates:36` or `jarrydk/fedora-adoptium-openjdk:17` it will add `Kafka` to the image.
 
 link:fedora/kafka/README.adoc[fedora/kafka/README.adoc]
 
@@ -68,99 +106,46 @@ https://hub.docker.com/r/jarrydk/fedora-kafka[hub.docker.com/r/jarrydk/fedora-ka
 
 === Kafka ZooKeeper on Fedora
 
-Based on `fedora:35`, `jarry-fedora-updates:35` or `jarry-fedora-openjdk:17` it will add `Kafka ZooKeeper` to the image.
+Based on `fedora:36`, `jarrydk/fedora-updates:35` or `jarrydk/fedora-adoptium-openjdk:17` it will add `Kafka ZooKeeper` to the image.
 
 
 link:fedora/kafka-zookeeper/README.adoc[fedora/kafka-zookeeper/README.adoc]
 
 https://hub.docker.com/r/jarrydk/fedora-kafka-zookeeper[hub.docker.com/r/jarrydk/fedora-kafka-zookeeper]
 
-== buildah-fedora-jdk15-tools-to-build-jdk.sh (jarry-fedora-tools-to-build-jdk)
-
-Based on jarry-fedora-openjdk:15.0.2 it will add tools to build jdk
-
-*Build the images*
-[source,bash]
-----
-./buildah-fedora-jdk15-tools-to-build-jdk.sh
-----
-
-*Using the images*
-[source,bash]
-----
-mkdir -p $PWD/build/openjdk
-podman run -it --rm=true \
-    --privileged \
-    -v $PWD/build/openjdk:/opt/java/openjdk-17 \
-    jarry-fedora-tools-to-build-jdk:1
-----
 
 OpenJdk 17 will be located in the folder `/opt/java/openjdk-17`
 
-== buildah-fedora-jdk15-wildfly-22.0.1.Final.sh (jarry-fedora-wildfly)
-
-Based on jarry-fedora-openjdk:15.0.2 it will add Wildfly 22.0.1.Final
-
-*Build the images*
-[source,bash]
-----
-./buildah-fedora-jdk15-wildfly-22.0.1.Final.sh
-----
-
-*Test the images*
-[source,bash]
-----
-podman run -it --rm=true \
-    -p 8080:8080 \
-    jarry-fedora-wildfly:22.0.1.Final
-----
-
 == CentOS
 
-== buildah-centos-jdk16.sh (jarry-centos-openjdk:16)
+=== jdk17 on CentOS (jarrydk/centos-adoptium-openjdk:17)
 
-Based on `centos:latest` it will add jdk-16 to the images.
+Based on `centos:latest` it will add `jdk-17` to the image.
 
 *Build the images*
 [source,bash]
 ----
-./buildah-centos-jdk16.sh
+cd centos/jdk17
+./buils_images.sh
 ----
 
 *Test the images*
 [source,bash]
 ----
 podman run -it --rm=true \
-    jarry-centos-openjdk:16 \
+    jarrydk/centos-adoptium-openjdk:17 \
     java -version
 ----
 
-== buildah-centos-jdk17.sh (jarry-centos-openjdk)
+=== wildfly-26.1.2.Final on CentOS (jarrydk/centos-wildfly:26.1.2.Final)
 
-Based on `centos:latest` it will add home build version of jdk-17 to the images.
+Based on jarrydk/centos-openjdk:17 it will add Wildfly 26.1.2.Final
 
 *Build the images*
 [source,bash]
 ----
-./buildah-centos-jdk17.sh
-----
-
-*Test the images*
-[source,bash]
-----
-podman run -it --rm=true \
-    jarry-centos-openjdk:17 \
-    java -version
-----
-
-== buildah-centos-jdk15-wildfly-23.0.0.Final.sh (jarry-centos-wildfly)
-
-Based on jarry-centos-openjdk:15.0.2 it will add Wildfly 23.0.0.Final
-
-*Build the images*
-[source,bash]
-----
-./buildah-centos-jdk15-wildfly-23.0.0.Final.sh
+cd centos/wildfly-26.1.2.Final
+./buils_images.sh
 ----
 
 *Test the images*
@@ -168,7 +153,7 @@ Based on jarry-centos-openjdk:15.0.2 it will add Wildfly 23.0.0.Final
 ----
 podman run -it --rm=true \
     -p 8080:8080 \
-    jarry-centos-wildfly:23.0.0.Final
+    jarrydk/centos-wildfly:26.1.2.Final
 ----
 
 == Local registry
@@ -184,10 +169,10 @@ My local ip is `192.168.1.36`.
 
 [source,bash]
 ----
-podman push localhost/jarry-fedora-openjdk:15.0.2 192.168.1.36:5000/jarry/jarry-fedora-openjdk:15.0.2
+podman push localhost/jarrydk/fedora-adoptium-openjdk:17 192.168.1.36:5000/jarrydk/fedora-adoptium-openjdk:17
 ----
 
-If we like to get the images `jarry-fedora-openjdk:15.0.2` in an insecure way from `192.168.1.36` - 
+If we like to get the images `jarrydk/fedora-adoptium-openjdk:17` in an insecure way from `192.168.1.36` - 
 we need to add some lines to `/etc/containers/registries.conf`
 
 [source,bash]
@@ -196,36 +181,8 @@ echo '' >> /etc/containers/registries.conf
 echo '# Manual update' >> /etc/containers/registries.conf
 echo '[[registry]]' >> /etc/containers/registries.conf
 echo 'prefix = "192.168.1.36:5000"' >> /etc/containers/registries.conf
-echo 'location = "192.168.1.36:5000/jarry"' >> /etc/containers/registries.conf
+echo 'location = "192.168.1.36:5000/jarrydk"' >> /etc/containers/registries.conf
 echo 'insecure = true' >> /etc/containers/registries.conf
-----
-
-== Build tools
-
-=== getOpenJdk.sh
-
-Download OpenJdk to the folder `build` and extract the file in the `build` folder.
-
-*USE*
-
-[source,bash]
-----
-## Get jdk 15.0.2
-OPEN_JDK_VERSION=15.0.2
-source "getOpenJdk.sh"
-----
-
-=== getWildfly.sh
-
-Download Wildfly to the folder `build` and extract the file in the `build` folder.
-
-*USE*
-
-[source,bash]
-----
-## Get Widlfly 22.0.1.Final 
-WILDFLY_VERSION=22.0.1.Final
-source "getWildfly.sh"
 ----
 
 == Tools

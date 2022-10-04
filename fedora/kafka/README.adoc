@@ -78,7 +78,7 @@ podman run -it --rm=true \
     --name=kafka1 \
     -e KAFKA_ZOOKEEPER_CONNECT=localhost:2181 \
     -e KAFKA_LISTENERS=PLAINTEXT://:9093 \
-    -e KAFKA_BROKER_ID=1 docker.io/jarrydk/fedora-kafka:3.1
+    -e KAFKA_BROKER_ID=1 jarrydk/fedora-kafka:3.3.1
 ----
 
 == Links

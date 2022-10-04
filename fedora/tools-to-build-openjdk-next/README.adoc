@@ -1,0 +1,24 @@
+= Tools to build Jdk 17
+
+== (jarrydk/fedora-tools-to-build-jdk)
+
+Based on jarrydk/fedora-openjdk:19 it will add tools to build jdk
+
+*Build the images*
+[source,bash]
+----
+cd fedora/tools-to-build-openjdk-next
+./build_images.sh
+----
+
+*Using the images*
+[source,bash]
+----
+mkdir -p $PWD/build/openjdk
+podman run -it --rm=true \
+    --privileged \
+    -v $PWD/build/openjdk:/opt/java/openjdk-next \
+    jarrydk/fedora-tools-to-build-jdk:1
+----
+
+OpenJdk next will be located in the folder `/opt/java/openjdk-next`

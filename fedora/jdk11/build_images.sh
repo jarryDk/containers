@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OPEN_JDK_VERSION=17
+OPEN_JDK_VERSION=11
 
 source ../../toolbox.sh
 
@@ -9,11 +9,6 @@ gotoProjectRoot
 
 ## Get OpenJDK from Adoptium
 getOpenJdkFromAdoptium
-
-if [ ! -d $JDK_BUILD_FOLDER ] ; then
-    echo "You need to download OpenJDK $OPEN_JDK_VERSION before you can use it."
-    exit 2;
-fi
 
 #########################################################################
 #
@@ -48,12 +43,12 @@ buildah config --label org.label-schema.schema-version="1.0" "$container1"
 buildah config --label maintainer="jarrydk" "$container1"
 buildah config --label license="Apache License Version 2.0" "$container1"
 
-# buildah commit "$container1" ${2:-docker.io/jarrydk/fedora-adoptium-openjdk:17}
-buildah commit "$container1" ${2:-jarrydk/fedora-adoptium-openjdk:17}
+# buildah commit "$container1" ${2:-docker.io/jarrydk/fedora-adoptium-openjdk:11}
+buildah commit "$container1" ${2:-jarrydk/fedora-adoptium-openjdk:11}
 
 echo "----------------------------"
 echo "------   TESTING  ----------"
 echo "----------------------------"
 podman run -it --rm=true \
-    jarrydk/fedora-adoptium-openjdk:17 \
+    jarrydk/fedora-adoptium-openjdk:11 \
     java -version

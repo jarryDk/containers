@@ -1,6 +1,6 @@
 = Kafka
 
-Base images ´docker.io/jarrydk/fedora-kafka-zookeeper:3.1´ is `fedora:35`.
+Base images ´docker.io/jarrydk/fedora-kafka-zookeeper:3.3.1´ is `fedora:36`.
 
 == Build images
 
@@ -21,8 +21,9 @@ Base images ´docker.io/jarrydk/fedora-kafka-zookeeper:3.1´ is `fedora:35`.
 [sourch,bash]
 ----
 podman run -it --rm=true \
+    --pod new:kafka-cluster \
     -p 2181:2181 \
-    --name=kafka-zookeeper docker.io/jarrydk/fedora-kafka-zookeeper:3.1
+    --name=kafka-zookeeper jarrydk/fedora-kafka-zookeeper:3.3.1
 ----
 
 == Links

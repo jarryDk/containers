@@ -20,8 +20,7 @@ fi
 # Work on images
 #
 
-# container1=$(buildah from "${1:-docker.io/jarrydk/fedora-updates:36}")
-container1=$(buildah from "${1:-jarrydk/fedora-updates:36}")
+container1=$(buildah from "${1:-centos:latest}")
 
 ## Get all updates
 echo "Get all updates"
@@ -48,12 +47,12 @@ buildah config --label org.label-schema.schema-version="1.0" "$container1"
 buildah config --label maintainer="jarrydk" "$container1"
 buildah config --label license="Apache License Version 2.0" "$container1"
 
-# buildah commit "$container1" ${2:-docker.io/jarrydk/fedora-adoptium-openjdk:17}
-buildah commit "$container1" ${2:-jarrydk/fedora-adoptium-openjdk:17}
+# buildah commit "$container1" ${2:-docker.io/jarrydk/centos-adoptium-openjdk:17}
+buildah commit "$container1" ${2:-jarrydk/centos-adoptium-openjdk:17}
 
 echo "----------------------------"
 echo "------   TESTING  ----------"
 echo "----------------------------"
 podman run -it --rm=true \
-    jarrydk/fedora-adoptium-openjdk:17 \
+    jarrydk/centos-adoptium-openjdk:17 \
     java -version

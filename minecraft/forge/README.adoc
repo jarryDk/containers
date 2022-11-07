@@ -1,6 +1,13 @@
 = Mincraft Forge
 
-Install Minecraft Forge server
+!! IMPORTANT !!!
+
+You should download Minecraft Forge from https://files.minecraftforge.net/net/minecraftforge/forge/ and remember to visit the sponsers on the website.
+
+== Install Minecraft Forge server scripted
+
+Install Minecraft Forge server scripted in `/opt/minecraft/foo`
+
 [source,bash]
 ----
 mkdir -p /opt/minecraft/foo
@@ -8,7 +15,22 @@ java -jar forge-1.19.2-43.1.47-installer.jar \
     --installServer=/opt/minecraft/foo
 ----
 
-Start Minecraft Forge server with podman
+== Build the images with Podman
+
+[source,bash]
+----
+./build_containerfile.sh
+----
+
+== Build the images with Buildah
+
+[source,bash]
+----
+./build_buildah.sh
+----
+
+
+== Start Minecraft Forge server with podman
 
 TIP: Remember `-e EULA=true`
 
@@ -20,9 +42,9 @@ podman run -it \
     jarrydk/fedora-minimal-minecraft-forge:1.19.2
 ----
 
-Start Minecraft Forge server with podman using a volume
+== Start Minecraft Forge server with podman using a volume
 
-TIP: Use `mkdir -p /opt/minecraft/forge/container/world` to create the ẁorld` folder on the guest host and remember `-e EULA=true`
+TIP: Use `mkdir -p /opt/minecraft/forge/container/world` to create the `ẁorld` folder on the guest host and remember `-e EULA=true`
 
 [source,bash]
 ----

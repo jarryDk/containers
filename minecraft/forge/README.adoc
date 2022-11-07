@@ -1,0 +1,35 @@
+= Mincraft Forge
+
+Install Minecraft Forge server
+[source,bash]
+----
+mkdir -p /opt/minecraft/foo
+java -jar forge-1.19.2-43.1.47-installer.jar \
+    --installServer=/opt/minecraft/foo
+----
+
+Start Minecraft Forge server with podman
+
+TIP: Remember `-e EULA=true`
+
+[source,bash]
+----
+podman run -it \
+    --rm=true \
+    -e EULA=true \
+    jarrydk/fedora-minimal-minecraft-forge:1.19.2
+----
+
+Start Minecraft Forge server with podman using a volume
+
+TIP: Use `mkdir -p /opt/minecraft/forge/container/world` to create the ẁorld` folder on the guest host and remember `-e EULA=true`
+
+[source,bash]
+----
+podman run -it \
+    --rm=true \
+    --privileged \
+    -e EULA=true \
+    -v /opt/minecraft/forge/container/world:/opt/minecraft/forge/world \
+    jarrydk/fedora-minimal-minecraft-forge:1.19.2
+----

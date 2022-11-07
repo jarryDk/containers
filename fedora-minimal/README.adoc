@@ -1,0 +1,5 @@
+= Fedora minimal
+
+https://fedoramagazine.org/build-smaller-containers/
+
+https://registry.fedoraproject.org/repo/fedora-minimal/tags/

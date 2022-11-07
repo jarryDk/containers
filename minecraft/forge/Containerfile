@@ -1,0 +1,14 @@
+FROM jarrydk/fedora-minimal-adoptium-openjdk:19
+
+RUN microdnf update -y && \
+    microdnf clean all -y
+
+COPY build/minecraft/forge/1.19.2-43.1.47 /opt/minecraft/forge
+
+COPY minecraft/forge/start_minecraft.sh /opt/minecraft/forge/start_minecraft.sh
+
+VOLUME [ "/opt/minecraft/forge/world" ]
+
+EXPOSE 25565
+
+CMD [ "/opt/minecraft/forge/start_minecraft.sh" ]

@@ -33,6 +33,36 @@ rawurlencode() {
     REPLY="${encoded}"   #+or echo the result (EASIER)... or both... :p
 }
 
+gerForgeMinecraft(){
+
+    FORGE_MINECRAFT_FORGE_VERSION=1.19.2-43.1.47
+    FORGE_MINECRAFT_FORGE_NAME=forge-$FORGE_MINECRAFT_FORGE_VERSION-installer.jar
+    FORGE_MINECRAFT_FORGE_FOLDER="build/minecraft/forge"
+    export FORGE_MINECRAFT_FORGE_FOLDER_INSTALLED="build/minecraft/forge/$FORGE_MINECRAFT_FORGE_VERSION"
+    FORGE_MINECRAFT_FORGE_ARCHIVE_PATH=$FORGE_MINECRAFT_FORGE_FOLDER/$FORGE_MINECRAFT_FORGE_NAME
+    FORGE_MINECRAFT_FORGE_URL=https://maven.minecraftforge.net/net/minecraftforge/forge/$FORGE_MINECRAFT_FORGE_VERSION/$FORGE_MINECRAFT_FORGE_NAME
+
+    if [ ! -d $FORGE_MINECRAFT_FORGE_FOLDER ]; then
+        mkdir -p $FORGE_MINECRAFT_FORGE_FOLDER
+    fi
+
+    if [ ! -f $FORGE_MINECRAFT_FORGE_ARCHIVE_PATH ]; then
+        wget -c $FORGE_MINECRAFT_FORGE_URL -P $FORGE_MINECRAFT_FORGE_FOLDER
+    fi
+
+    if [ ! -d $FORGE_MINECRAFT_FORGE_FOLDER_INSTALLED ]; then
+        mkdir -p $FORGE_MINECRAFT_FORGE_FOLDER_INSTALLED
+        # Install Mincraft Forge
+        java -jar $FORGE_MINECRAFT_FORGE_ARCHIVE_PATH \
+            --installServer=$FORGE_MINECRAFT_FORGE_FOLDER_INSTALLED
+    fi
+
+    echo ">>>"
+    echo "FORGE_MINECRAFT_FORGE_VERSION : $FORGE_MINECRAFT_FORGE_VERSION"
+    echo "<<<"
+
+}
+
 getOpenJdk(){
 
     ## Get OpenJdk from java.net
@@ -74,16 +104,16 @@ getOpenJdk(){
     echo "OPEN_JDK_FINAL_FOLDER : $OPEN_JDK_FINAL_FOLDER"
     echo "<<<"
 
+    if [ ! -d "build/openjdk" ]; then
+        mkdir -p "build/openjdk"
+    fi
+
     if [ ! -f $OPEN_JDK_ARCHIVE_PATH ]; then
         wget -c $OPEN_JDK_BASE_URL -P build/
     fi
 
     if [ ! -f "build/$OPEN_JDK_TAR_SHA254" ]; then
         wget -c "$OPEN_JDK_BASE_URL/$OPEN_JDK_TAR_SHA254" -P build/
-    fi
-
-    if [ ! -d "build/openjdk" ]; then
-        mkdir -p "build/openjdk"
     fi
 
     if [ ! -d "build/openjdk/jdk-$OPEN_JDK_VERSION" ]; then

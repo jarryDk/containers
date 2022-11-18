@@ -18,7 +18,7 @@ mkdir -p $PWD/build/openjdk
 podman run -it --rm=true \
     --privileged \
     -v $PWD/build/openjdk:/opt/java/openjdk-next \
-    jarrydk/fedora-tools-to-build-jdk:1
+    jarrydk/fedora-37-tools-to-build-jdk:1
 ----
 
 OpenJdk next will be located in the folder `/opt/java/openjdk-next`

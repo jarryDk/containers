@@ -11,7 +11,7 @@ gotoProjectRoot
 #
 
 # container1=$(buildah from "${1:-docker.io/jarrydk/fedora-adoptium-openjdk:19}")
-container1=$(buildah from "${1:-jarrydk/fedora-adoptium-openjdk:19}")
+container1=$(buildah from "${1:-jarrydk/fedora-37-adoptium-openjdk:19}")
 
 ## Get all updates
 buildah run "$container1" -- dnf update -y
@@ -78,4 +78,4 @@ buildah copy "$container1" build/config-build.sh /opt/java/config-build.sh
 buildah config --cmd "/opt/java/config-build.sh" "$container1"
 
 echo "Commit images"
-buildah commit "$container1" ${2:-jarrydk/fedora-tools-to-build-jdk:1}
+buildah commit "$container1" ${2:-jarrydk/fedora-37-tools-to-build-jdk:1}

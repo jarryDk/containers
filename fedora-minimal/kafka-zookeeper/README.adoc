@@ -26,6 +26,16 @@ podman run -it --rm=true \
     --name=kafka-zookeeper jarrydk/fedora-kafka-zookeeper:3.5.0
 ----
 
+
+[sourch,bash]
+----
+podman run -it \
+    --rm=true \
+    --name=kafka-cluster \
+    -p 2181:2181 \
+    --name=kafka-zookeeper docker.io/jarrydk/fedora-minimal-kafka-zookeeper:3.5.0
+----
+
 == Links
 
 https://kafka.apache.org/

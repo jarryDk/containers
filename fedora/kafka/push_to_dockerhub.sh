@@ -2,4 +2,4 @@
 
 podman login docker.io
 
-podman push docker.io/jarrydk/fedora-kafka:3.1
+podman push docker.io/jarrydk/fedora-kafka:3.5.0

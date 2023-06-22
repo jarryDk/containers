@@ -2,4 +2,4 @@
 
 podman login docker.io
 
-podman push docker.io/jarrydk/fedora-minimal-37-adoptium-openjdk:17
+podman push docker.io/jarrydk/fedora-minimal-adoptium-openjdk:17

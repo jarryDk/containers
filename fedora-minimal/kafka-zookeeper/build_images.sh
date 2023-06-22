@@ -18,20 +18,20 @@ getKafka
 # Work on images
 #
 
-# container1=$(buildah from "${1:-docker.io/jarrydk/fedora-adoptium-openjdk:17}")
-container1=$(buildah from "${1:-jarrydk/fedora-adoptium-openjdk:17}")
+container1=$(buildah from "${1:-docker.io/jarrydk/fedora-minimal-adoptium-openjdk:17}")
+# container1=$(buildah from "${1:-jarrydk/fedora-minimal-adoptium-openjdk:17}")
 
 ## Get all updates
 echo "Get all updates"
-buildah run "$container1" -- dnf update -y
+buildah run "$container1" -- microdnf update -y
 
 ## Install scala
 echo "Install scala"
-buildah run "$container1" -- dnf install scala -y
+buildah run "$container1" -- microdnf install scala -y
 
 ## Clean up after update
 echo "Clean up after update"
-buildah run "$container1" -- dnf clean all -y
+buildah run "$container1" -- microdnf clean all -y
 
 ## Install Kafka
 echo "Install Kafka - kafka_${SCALA_VERSION}-${KAFKA_VERSION}"
@@ -56,5 +56,5 @@ buildah config --label org.label-schema.schema-version="1.0" "$container1"
 buildah config --label maintainer="jarrydk" "$container1"
 buildah config --label license="Apache License Version 2.0" "$container1"
 
-# buildah commit "$container1" ${2:-docker.io/jarrydk/fedora-kafka-zookeeper:3.5.0}
-buildah commit "$container1" ${2:-jarrydk/fedora-kafka-zookeeper:3.5.0}
+buildah commit "$container1" ${2:-docker.io/jarrydk/fedora-minimal-kafka-zookeeper:3.5.0}
+# buildah commit "$container1" ${2:-jarrydk/fedora-minimal-kafka-zookeeper:3.5.0}

@@ -19,5 +19,5 @@ buildah config --label org.label-schema.schema-version="1.0" "$container1"
 buildah config --label maintainer="jarrydk" "$container1"
 buildah config --label license="Apache License Version 2.0" "$container1"
 
-# buildah commit "$container1" ${2:-docker.io/jarrydk/fedora-minimal-updates:38}
-buildah commit "$container1" ${2:-jarrydk/fedora-minimal-updates:38}
+buildah commit "$container1" ${2:-docker.io/jarrydk/fedora-minimal-updates:38}
+# buildah commit "$container1" ${2:-jarrydk/fedora-minimal-updates:38}

@@ -18,8 +18,8 @@ getKafka
 # Work on images
 #
 
-container1=$(buildah from "${1:-docker.io/jarrydk/fedora-minimal-adoptium-openjdk:17}")
-#container1=$(buildah from "${1:-jarrydk/fedora-minimal-adoptium-openjdk:17}")
+# container1=$(buildah from "${1:-docker.io/jarrydk/fedora-minimal-adoptium-openjdk:17}")
+container1=$(buildah from "${1:-jarrydk/fedora-minimal-adoptium-openjdk:17}")
 
 ## Get all updates
 echo "Get all updates"
@@ -56,5 +56,5 @@ buildah config --label org.label-schema.schema-version="1.0" "$container1"
 buildah config --label maintainer="jarrydk" "$container1"
 buildah config --label license="Apache License Version 2.0" "$container1"
 
-buildah commit "$container1" ${2:-docker.io/jarrydk/fedora-minimal-kafka:3.5.0}
-#buildah commit "$container1" ${2:-jarrydk/fedora-minimal-kafka:3.5.0}
+# buildah commit "$container1" ${2:-docker.io/jarrydk/fedora-minimal-kafka:3.5.0}
+buildah commit "$container1" ${2:-jarrydk/fedora-minimal-kafka:3.5.0}

@@ -16,8 +16,8 @@ getOpenJdkFromAdoptium
 #
 
 # container1=$(buildah from "${1:-docker.io/jarrydk/fedora-minimal-updates:38}")
-# container1=$(buildah from "${1:-jarrydk/fedora-minimal-updates:38}")
-container1=$(buildah from "${1:-fedora-minimal:38}")
+container1=$(buildah from "${1:-jarrydk/fedora-minimal-updates:38}")
+# container1=$(buildah from "${1:-fedora-minimal:38}")
 
 ## Get all updates
 echo "Get all updates"

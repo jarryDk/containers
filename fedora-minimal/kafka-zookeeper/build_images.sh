@@ -38,7 +38,7 @@ echo "Install Kafka - kafka_${SCALA_VERSION}-${KAFKA_VERSION}"
 
 buildah copy "$container1" build/kafka/kafka_${SCALA_VERSION}-${KAFKA_VERSION} /opt/kafka
 
-buildah copy "$container1" fedora/kafka-zookeeper/start-kafka-zookeeper-jarrydk.sh /opt/kafka/start-kafka-zookeeper-jarrydk.sh
+buildah copy "$container1" fedora-minimal/kafka-zookeeper/start-kafka-zookeeper-jarrydk.sh /opt/kafka/start-kafka-zookeeper-jarrydk.sh
 
 buildah config --env KAFKA_HOME=/opt/kafka "$container1"
 buildah config --env PATH=${KAFKA_HOME}/bin:$PATH "$container1"

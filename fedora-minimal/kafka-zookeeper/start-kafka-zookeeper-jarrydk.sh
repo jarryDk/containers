@@ -15,7 +15,7 @@ echo "--------------------------------------------------------------------------
 
 
 if [ ! -z "$KAFKA_DATA_DIR" ]; then
-    sed -i 's/dataDir/# dataDir/g' zookeeper.properties
+    sed -i 's/dataDir/# dataDir/g' /opt/kafka/config/zookeeper.properties
     sed -i '17 i dataDir='$KAFKA_DATA_DIR'' /opt/kafka/config/zookeeper.properties
 else
     sed -i '17 i # Default value is used for dataDir ('$KAFKA_DATA_DIR_DEFAULT')' /opt/kafka/config/zookeeper.properties

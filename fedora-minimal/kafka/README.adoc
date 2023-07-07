@@ -27,6 +27,7 @@ Base images `docker.io/jarrydk/fedora-kafka:3.5` is `fedora-minimal:38`.
 .Values to change
 ----
 KAFKA_LISTENERS="PLAINTEXT://:9092"
+KAFKA_LISTENER_SECURITY_PROTOCAL="PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL"
 KAFKA_ADVERTISED_LISTENERS="PLAINTEXT://localhost:9092"
 KAFKA_BROKER_ID="0"
 KAFKA_LOG_DIRS="/tmp/kafka-logs"
@@ -37,6 +38,7 @@ TIP: Create the folder for `KAFKA_LOG_DIR` up front or use an existing one.
 .Default values
 ----
 KAFKA_LISTENERS_DEFAULT="PLAINTEXT://:9092"
+KAFKA_LISTENER_SECURITY_PROTOCAL_MAP_DEFAULT="PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL"
 KAFKA_ADVERTISED_LISTENERS_DEFAULT="PLAINTEXT://localhost:9092"
 KAFKA_BROKER_ID_DEFAULT="0"
 KAFKA_LOG_DIRS_DEFAULT="/tmp/kafka-logs"
@@ -87,4 +89,5 @@ podman run -it --rm=true \
 
 == Links
 
-https://kafka.apache.org/
+- https://kafka.apache.org/
+- https://www.confluent.io/blog/kafka-listeners-explained/

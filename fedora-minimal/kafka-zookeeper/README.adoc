@@ -1,40 +1,88 @@
 = Kafka
 
-Base images ´docker.io/jarrydk/fedora-kafka-zookeeper:3.3.1´ is `fedora:38`.
+Base images `docker.io/jarrydk/fedora-kafka-zookeeper:3.5` is `fedora-minimal:38`.
 
 == Build images
 
+.Images name - docker.io/jarrydk/fedora-minimal-kafka-zookeeper:3.5.0
 [sourch,bash]
 ----
-./build_images.sh
+./build_images_docker.io.sh
 ----
 
-== Push to docker hub
+.Images name - jarrydk/fedora-minimal-kafka-zookeeper:3.5.0
+[sourch,bash]
+----
+./build_images_local.sh
+----
 
+.Push to docker hub
 [sourch,bash]
 ----
 ./push_to_dockerhub.sh
 ----
 
-== Start Kafka ZooKeeper
+== Option to the Container
 
+.Values to change
+----
+KAFKA_DATA_DIR='/tmp/zookeeper'
+KAFKA_ADMIN_ENABLE_SERVER='false'
+KAFKA_ADMIN_SERVER_PORT='8080'
+----
+
+TIP: Create the folder for `KAFKA_DATA_DIR` up front or use an existing one.
+
+.Default values
+----
+KAFKA_DATA_DIR_DEFAULT='/tmp/zookeeper'
+KAFKA_ADMIN_ENABLE_SERVER_DEFAULT='false'
+KAFKA_ADMIN_SERVER_PORT_DEFAULT='8080'
+----
+
+== Start Apache Kafka Zookeeper as Container
+
+[sourch,bash]
+----
+podman run \
+    -it \
+    --rm=true \
+    --name=kafka-zookeeper \
+    -p 2181:2181 \
+    docker.io/jarrydk/fedora-kafka-zookeeper:3.5
+----
+
+== Start ZooKeeper and Kafka in same Pod
+
+.Create the pod kafka-cluster
+[sourch,bash]
+----
+podman pod create \
+    --name kafka-cluster \
+    -p 9092:9092 \
+    -p 9093:9093
+----
+
+.Start Apache Kafka Zookeeper in the pod kafka-cluster
 [sourch,bash]
 ----
 podman run -it --rm=true \
-    --pod new:kafka-cluster \
-    -p 2181:2181 \
-    --name=kafka-zookeeper jarrydk/fedora-kafka-zookeeper:3.5.0
+    --pod kafka-cluster \
+    --name=kafka-zookeeper \
+    docker.io/jarrydk/fedora-minimal-kafka-zookeeper:3.5.0
 ----
 
-
+.Start Apache Kafka Server in the pod kafka-cluster
 [sourch,bash]
 ----
-podman run -it \
-    --rm=true \
-    --name=kafka-cluster \
-    -p 2181:2181 \
-    --name=kafka-zookeeper docker.io/jarrydk/fedora-minimal-kafka-zookeeper:3.5.0
+podman run -it --rm=true \
+    --pod kafka-cluster \
+    --name=kafka-server \
+    -e KAFKA_ZOOKEEPER_CONNECT=kafka-zookeeper:2181 \
+    docker.io/jarrydk/fedora-minimal-kafka:3.5.0
 ----
+
+
 
 == Links
 

@@ -1,41 +1,63 @@
 = Kafka
 
-Base images ´docker.io/jarrydk/fedora-kafka:3.1´ is `fedora:35`.
+Base images `docker.io/jarrydk/fedora-kafka:3.5` is `fedora-minimal:38`.
 
 == Build images
 
+.Images name - docker.io/jarrydk/fedora-minimal-kafka:3.5.0
 [sourch,bash]
 ----
-./build_images.sh
+./build_images_docker.io.sh
 ----
 
-== Push to docker hub
+.Images name - jarrydk/fedora-minimal-kafka:3.5.0
+[sourch,bash]
+----
+./build_images_local.sh
+----
 
+.Push to docker hub
 [sourch,bash]
 ----
 ./push_to_dockerhub.sh
 ----
 
-== Start ZooKeeper (standalone)
+== Option to the Container
+
+.Values to change
+----
+KAFKA_LISTENERS="PLAINTEXT://:9092"
+KAFKA_ADVERTISED_LISTENERS="PLAINTEXT://localhost:9092"
+KAFKA_BROKER_ID="0"
+KAFKA_LOG_DIRS="/tmp/kafka-logs"
+----
+
+TIP: Create the folder for `KAFKA_LOG_DIR` up front or use an existing one.
+
+.Default values
+----
+KAFKA_LISTENERS_DEFAULT="PLAINTEXT://:9092"
+KAFKA_ADVERTISED_LISTENERS_DEFAULT="PLAINTEXT://localhost:9092"
+KAFKA_BROKER_ID_DEFAULT="0"
+KAFKA_LOG_DIRS_DEFAULT="/tmp/kafka-logs"
+----
+
+== Start Apache Kafka Server as Container
 
 [sourch,bash]
 ----
-$ cd ../../build/kafka/kafka_2.13-3.1.0
-$ bin/zookeeper-server-start.sh config/zookeeper.properties
-----
-
-== Start Kafka
-
-[sourch,bash]
-----
-podman run -it --rm=true \
-    --name=kafka \
+podman run \
+    -it \
+    --rm=true \
+    --name=kafka-server \
     -p 9092:9092 \
-     docker.io/jarrydk/fedora-kafka:3.1
+    -e KAFKA_ZOOKEEPER_CONNECT=kafka-zookeeper:2181 \
+    docker.io/jarrydk/fedora-minimal-kafka:3.5.0
 ----
 
 == Start ZooKeeper and Kafka in same Pod
 
+.Create the pod kafka-cluster
 [sourch,bash]
 ----
 podman pod create \
@@ -44,41 +66,23 @@ podman pod create \
     -p 9093:9093
 ----
 
+.Start Apache Kafka Zookeeper in the pod kafka-cluster
 [sourch,bash]
 ----
 podman run -it --rm=true \
     --pod kafka-cluster \
-    --name=kafka-zookeeper docker.io/jarrydk/fedora-kafka-zookeeper:3.1
+    --name=kafka-zookeeper \
+    docker.io/jarrydk/fedora-minimal-kafka-zookeeper:3.5.0
 ----
 
+.Start Apache Kafka Server in the pod kafka-cluster
 [sourch,bash]
 ----
 podman run -it --rm=true \
     --pod kafka-cluster \
-    --name=kafka \
-    -e KAFKA_ZOOKEEPER_CONNECT=localhost:2181 docker.io/jarrydk/fedora-kafka:3.1
-----
-
-[sourch,bash]
-----
-podman run -it --rm=true \
-    --pod kafka-cluster \
-    --name=kafka0 \
-    -e KAFKA_ZOOKEEPER_CONNECT=localhost:2181 \
-    -e KAFKA_LISTENERS=PLAINTEXT://:9092 \
-    -e KAFKA_BROKER_ID=0 \
-    docker.io/jarrydk/fedora-kafka:3.1
-----
-
-
-[sourch,bash]
-----
-podman run -it --rm=true \
-    --pod kafka-cluster \
-    --name=kafka1 \
-    -e KAFKA_ZOOKEEPER_CONNECT=localhost:2181 \
-    -e KAFKA_LISTENERS=PLAINTEXT://:9093 \
-    -e KAFKA_BROKER_ID=1 jarrydk/fedora-kafka:3.3.1
+    --name=kafka-server \
+    -e KAFKA_ZOOKEEPER_CONNECT=kafka-zookeeper:2181 \
+    docker.io/jarrydk/fedora-minimal-kafka:3.5.0
 ----
 
 == Links

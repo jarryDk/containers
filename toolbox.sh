@@ -83,6 +83,10 @@ getOpenJdk(){
             OPEN_JDK_VERSION_ID_PATH=0d1cfde4252546c6931946de8db48ee2/7
         ;;
 
+        17 | 17.0.2)
+            OPEN_JDK_VERSION=17.0.2
+            OPEN_JDK_VERSION_ID_PATH=dfd4a8d0985749f896bed50d7138ee7f/8
+        ;;
         *)
             OPEN_JDK_VERSION=17.0.2
             OPEN_JDK_VERSION_ID_PATH=dfd4a8d0985749f896bed50d7138ee7f/8
@@ -150,7 +154,31 @@ getOpenJdkFromAdoptium(){
     VERSION_JAVA_NINETEEN_ADOPTIUM_TAG=$( eval "rawurlencode $VERSION_JAVA_NINETEEN")
     VERSION_JAVA_NINETEEN_ADOPTIUM_ARCHIVE_NAME="OpenJDK19U-jdk_x64_linux_hotspot_19.0.1_10.tar.gz"
 
+    VERSION_JAVA_21="jdk-21.0.5+11"
+    VERSION_JAVA_21_ADOPTIUM_TAG=$( eval "rawurlencode $VERSION_JAVA_21")
+    VERSION_JAVA_21_ADOPTIUM_ARCHIVE_NAME="OpenJDK21U-jdk_x64_linux_hotspot_"$(echo $VERSION_JAVA_21 |tr -d 'jdk'|tr -d '-'|tr '+' '_')".tar.gz"
+
+    VERSION_JAVA_23="jdk-23.0.1+11"
+    VERSION_JAVA_23_ADOPTIUM_TAG=$( eval "rawurlencode $VERSION_JAVA_23")
+    VERSION_JAVA_23_ADOPTIUM_ARCHIVE_NAME="OpenJDK23U-jdk_x64_linux_hotspot_"$(echo $VERSION_JAVA_23 |tr -d 'jdk'|tr -d '-'|tr '+' '_')".tar.gz"
+
     case $OPEN_JDK_VERSION in
+        23)
+        # https://github.com/adoptium/temurin23-binaries
+        ADOPTIUM_TOP_VERSION=23
+        ADOPTIUM_TAG_VERSION=$VERSION_JAVA_23_ADOPTIUM_TAG
+        ADOPTIUM_FOLDER=$VERSION_JAVA_23
+        ADOPTIUM_ARCHIVE_NAME=$VERSION_JAVA_23_ADOPTIUM_ARCHIVE_NAME
+        ;;
+
+        21)
+        # https://github.com/adoptium/temurin21-binaries
+        ADOPTIUM_TOP_VERSION=21
+        ADOPTIUM_TAG_VERSION=$VERSION_JAVA_21_ADOPTIUM_TAG
+        ADOPTIUM_FOLDER=$VERSION_JAVA_21
+        ADOPTIUM_ARCHIVE_NAME=$VERSION_JAVA_21_ADOPTIUM_ARCHIVE_NAME
+        ;;
+
         19)
         # https://github.com/adoptium/temurin19-binaries
         ADOPTIUM_TOP_VERSION=19
@@ -225,6 +253,48 @@ getOpenJdkFromAdoptium(){
 
     JDK_FOLDER="$ADOPTIUM_FOLDER"
     JDK_BUILD_FOLDER="$ADOPTIOM_FINAL_FOLDER"
+
+}
+
+getMaven(){
+    ## Get Maven
+
+    case $MAVEN_VERSION in
+        *)
+            MAVEN_VERSION=3.9.9
+        ;;
+    esac
+
+    local FILENAME=apache-maven-$MAVEN_VERSION
+    local ARCHIVE_NAME=$FILENAME-bin.tar.gz
+    local ARCHIVE_PATH="build/maven/$ARCHIVE_NAME"
+    local DOWNLOAD_ADDRESS=https://dlcdn.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/$ARCHIVE_NAME
+    
+    if [ ! -e "$ARCHIVE_PATH" ]; then
+        echo "Downloading: $DOWNLOAD_ADDRESS..."
+        echo "Download location: $ARCHIVE_PATH"
+        wget -P "build/maven" $DOWNLOAD_ADDRESS
+        wgetreturn=$?
+        if [ $wgetreturn -ne 0 ]; then
+            echo "Not possible to download $ARCHIVE_NAME - Exit Status : $wgetreturn"
+            sleep 20
+            exit 1
+        fi
+    else
+        echo "$ARCHIVE_NAME archive already exists."
+    fi
+
+    MAVEN_FOLDER="apache-maven-$MAVEN_VERSION"
+    MAVEN_BUILD_FOLDER="build/maven/apache-maven-$MAVEN_VERSION"
+
+    echo "MAVEN_BUILD_FOLDER : $MAVEN_BUILD_FOLDER"
+
+    if [ ! -d $MAVEN_BUILD_FOLDER ]; then
+        echo "Unpacking $ARCHIVE_PATH"
+        tar -xvf $ARCHIVE_PATH  -C "build/maven"
+    else
+        echo "No need to unpack $ARCHIVE_PATH"
+    fi
 
 }
 
